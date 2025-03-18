@@ -1,17 +1,18 @@
 import { gql } from "@apollo/client";
 
-export const GET_PRODUCTS = gql`
-  query GetProducts {
-    products {
+export const GET_PRODUCT_BY_SLUG = gql`
+  query GetProductBySlug($slug: String!) {
+    products(where: { slug: $slug }) {
       id
       name
       description
       slug
       images {
         id
-        url
+        fileName
         createdAt
         updatedAt
+        url
       }
       createdAt
       price
@@ -38,16 +39,17 @@ export const GET_PRODUCTS = gql`
   }
 `;
 
-export type GetProducts = {
+export type GetProductBySlug = {
   id: string;
   name: string;
   description: string;
   slug: string;
   images: {
     id: string;
-    url: string;
+    fileName: string;
     createdAt: string;
     updatedAt: string;
+    url: string;
   }[];
   createdAt: string;
   price: number;
