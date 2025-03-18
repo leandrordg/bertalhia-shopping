@@ -22,7 +22,7 @@ export function CartProductList({}: Props) {
   return (
     <section className="space-y-12">
       {!items.length && (
-        <div className="flex flex-col items-center justify-center gap-4 p-8 bg-muted/50 rounded-xl">
+        <div className="flex flex-col items-center text-center justify-center gap-4 p-8 bg-muted/50 rounded-xl">
           <ShoppingCartIcon className="size-6 text-muted-foreground" />
           <h2 className="text-lg font-semibold">Seu carrinho está vazio</h2>
           <p className="text-muted-foreground text-center">

@@ -1,19 +1,30 @@
+import Link from "next/link";
+
 import { formatPrice } from "@/utils/format";
 
 import { ProductSelection } from "@/components/product-selection";
-import Link from "next/link";
 
 interface Props {
   product: Product;
 }
 
 export function ProductAside({ product }: Props) {
+  const categories = product.categories.filter((category) => category.id);
   const collections = product.collections.filter((collection) => collection.id);
 
   return (
     <aside className="space-y-4 p-4">
-      {collections.length > 0 && (
+      {(categories.length > 0 || collections.length > 0) && (
         <div className="flex flex-wrap gap-2">
+          {categories.map((category) => (
+            <Link
+              key={category.id}
+              href={`/categories/${category.slug}`}
+              className="text-muted-foreground"
+            >
+              {category.name}
+            </Link>
+          ))}
           {collections.map((collection) => (
             <Link
               key={collection.id}
@@ -35,7 +46,7 @@ export function ProductAside({ product }: Props) {
       </p>
 
       <p className="leading-relaxed text-muted-foreground">
-        {product.description}
+        {product.description ?? "Sem descrição."}
       </p>
 
       <ProductSelection product={product} />

@@ -35,6 +35,14 @@ export const GET_PRODUCT_BY_SLUG = gql`
         createdAt
         updatedAt
       }
+      categories {
+        id
+        name
+        slug
+        description
+        createdAt
+        updatedAt
+      }
     }
   }
 `;

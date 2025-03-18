@@ -29,4 +29,12 @@ type Product = {
     createdAt: string;
     updatedAt: string;
   }[];
+  categories: {
+    id: string;
+    name: string;
+    slug: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
 };

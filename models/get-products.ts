@@ -35,6 +35,14 @@ export const GET_PRODUCTS = gql`
         createdAt
         updatedAt
       }
+      categories {
+        id
+        name
+        slug
+        description
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
