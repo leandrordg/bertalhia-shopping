@@ -22,8 +22,8 @@ export function CartProductList() {
           <ShoppingCartIcon className="size-6 text-muted-foreground" />
           <h2 className="text-lg font-semibold">Seu carrinho está vazio</h2>
           <p className="text-muted-foreground text-center">
-            Adicione produtos ao carrinho clicando no botão "Adicionar ao
-            carrinho".
+            Adicione produtos ao carrinho clicando no botão {'"'}Adicionar ao
+            carrinho{'"'}.
           </p>
           <Link
             href="/"
