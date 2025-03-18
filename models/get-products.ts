@@ -9,9 +9,10 @@ export const GET_PRODUCTS = gql`
       slug
       images {
         id
-        url
+        fileName
         createdAt
         updatedAt
+        url
       }
       createdAt
       price
@@ -37,35 +38,3 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
-
-export type GetProducts = {
-  id: string;
-  name: string;
-  description: string;
-  slug: string;
-  images: {
-    id: string;
-    url: string;
-    createdAt: string;
-    updatedAt: string;
-  }[];
-  createdAt: string;
-  price: number;
-  updatedAt: string;
-  variants: {
-    id: string;
-    name: string;
-    size: string;
-    color: string;
-    createdAt: string;
-    updatedAt: string;
-  }[];
-  collections: {
-    id: string;
-    name: string;
-    slug: string;
-    description: string;
-    createdAt: string;
-    updatedAt: string;
-  }[];
-};

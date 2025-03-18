@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { GetProductBySlug } from "@/models/get-product-by-slug";
-
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 
 interface Props {
-  product: GetProductBySlug;
+  product: Product;
 }
 
 export function ProductCarousel({ product }: Props) {

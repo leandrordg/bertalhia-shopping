@@ -1,7 +1,7 @@
 import { queryClient } from "@/lib/apollo-client";
-import { GET_PRODUCTS, GetProducts } from "@/models/get-products";
+import { GET_PRODUCTS } from "@/models/get-products";
 
-export async function getProducts(): Promise<GetProducts[]> {
+export async function getProducts(): Promise<Product[]> {
   const { data } = await queryClient.query({ query: GET_PRODUCTS });
   return data.products;
 }

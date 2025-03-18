@@ -1,18 +1,17 @@
-import { GetProductBySlug } from "@/models/get-product-by-slug";
 import { formatPrice } from "@/utils/format";
 
 import { ProductSelection } from "@/components/product-selection";
 import Link from "next/link";
 
 interface Props {
-  product: GetProductBySlug;
+  product: Product;
 }
 
 export function ProductAside({ product }: Props) {
   const collections = product.collections.filter((collection) => collection.id);
 
   return (
-    <aside className="space-y-4">
+    <aside className="space-y-4 p-4">
       {collections.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {collections.map((collection) => (

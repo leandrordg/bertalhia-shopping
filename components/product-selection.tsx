@@ -1,7 +1,8 @@
 "use client";
 
-import { GetProductBySlug } from "@/models/get-product-by-slug";
+import { useCartStore } from "@/stores/cart";
 import { useQueryState } from "nuqs";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +16,7 @@ import {
 import { ShoppingBasketIcon } from "lucide-react";
 
 interface Props {
-  product: GetProductBySlug;
+  product: Product;
 }
 
 export function ProductSelection({ product }: Props) {
@@ -28,6 +29,24 @@ export function ProductSelection({ product }: Props) {
   const [currVariant, setCurrVariant] = useQueryState("variant", {
     defaultValue: "",
   });
+
+  const addItemToCart = useCartStore((state) => state.addItem);
+
+  const handleAddToCart = () => {
+    const selectedVariant = variants
+      ? variants.find((v) => v.id === currVariant)
+      : null;
+
+    const cartItem = {
+      ...product,
+      quantity: parseInt(quantity),
+      variantId: selectedVariant ? selectedVariant.id : "",
+    };
+
+    addItemToCart(cartItem);
+
+    toast.success("Produto adicionado ao carrinho!");
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -85,7 +104,11 @@ export function ProductSelection({ product }: Props) {
         </div>
       </div>
 
-      <Button size="lg" disabled={variants.length > 0 && !currVariant}>
+      <Button
+        size="lg"
+        disabled={variants.length > 0 && !currVariant}
+        onClick={handleAddToCart}
+      >
         <ShoppingBasketIcon />
         Adicionar ao carrinho
       </Button>
