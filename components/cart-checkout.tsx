@@ -22,7 +22,7 @@ export function CartCheckout({ products }: Props) {
       {!items.length && <FreeShippingCard />}
 
       {items.length > 0 && (
-        <div className="flex flex-col gap-4 flex-1 bg-muted/50 p-8 rounded-xl">
+        <div className="flex flex-col gap-4 flex-1 bg-muted/50 p-4 md:p-8 rounded-xl">
           <div className="px-4 py-2 border rounded-xl flex items-center gap-2 bg-green-100 border-green-300 text-green-700">
             <TruckIcon className="size-6" />
             <p className="text-sm">
@@ -52,9 +52,13 @@ export function CartCheckout({ products }: Props) {
 
       {products.length > 0 && (
         <div className="space-y-12">
-          <h3 className="text-xl font-bold text-muted-foreground text-center uppercase">
-            Explorar
-          </h3>
+          <div className="flex items-center gap-4">
+            <hr className="flex-1" />
+            <h3 className="text-xl font-bold text-muted-foreground text-center uppercase">
+              Explorar
+            </h3>
+            <hr className="flex-1" />
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
               <Link key={product.id} href={`/products/${product.slug}`}>

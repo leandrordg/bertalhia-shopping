@@ -5,6 +5,7 @@ import { getCategories } from "@/hooks/get-categories";
 import { getCollections } from "@/hooks/get-collections";
 
 import { HeaderCartButton } from "@/components/header-cart-button";
+import { HeaderSearchButton } from "@/components/header-search-button";
 
 export async function Header() {
   const categories = await getCategories();
@@ -46,6 +47,7 @@ export async function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-4">
+          <HeaderSearchButton />
           <HeaderCartButton />
         </div>
       </div>

@@ -12,11 +12,7 @@ import {
   ShoppingCartIcon,
 } from "lucide-react";
 
-interface Props {
-  products: Product[];
-}
-
-export function CartProductList({}: Props) {
+export function CartProductList() {
   const { items, removeItem, updateQuantity } = useCartStore((state) => state);
 
   return (

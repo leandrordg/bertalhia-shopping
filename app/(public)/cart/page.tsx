@@ -8,7 +8,7 @@ export default async function CartPage() {
 
   return (
     <main className="max-w-7xl mx-auto py-12 space-y-12">
-      <CartProductList products={products} />
+      <CartProductList />
 
       <CartCheckout products={products} />
     </main>

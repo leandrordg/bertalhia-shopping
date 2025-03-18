@@ -19,7 +19,7 @@ export function ProductCarousel({ product }: Props) {
         {product.images.map((image) => (
           <CarouselItem
             key={image.id}
-            className="relative w-full h-[60dvh] bg-muted/50"
+            className="relative w-full h-[60dvh]"
           >
             <Image
               src={image.url}
