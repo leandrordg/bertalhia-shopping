@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCartStore } from "@/stores/cart";
 import { formatPrice } from "@/utils/format";
 
+import { Button } from "@/components/ui/button";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -25,12 +26,9 @@ export function CartProductList() {
             Adicione produtos ao carrinho clicando no botão {'"'}Adicionar ao
             carrinho{'"'}.
           </p>
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-foreground hover:underline"
-          >
-            Ver produtos
-          </Link>
+          <Button variant="default" asChild>
+            <Link href="/">Ver produtos</Link>
+          </Button>
         </div>
       )}
 

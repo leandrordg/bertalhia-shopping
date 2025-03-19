@@ -16,8 +16,8 @@ type Product = {
   variants: {
     id: string;
     name: string;
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
     createdAt: string;
     updatedAt: string;
   }[];
@@ -34,6 +34,16 @@ type Product = {
     name: string;
     slug: string;
     description: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+  reviews: {
+    id: string;
+    name: string;
+    content: string;
+    rating: number;
+    headline: string;
+    email: string;
     createdAt: string;
     updatedAt: string;
   }[];

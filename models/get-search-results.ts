@@ -2,7 +2,11 @@ import { gql } from "@apollo/client";
 
 export const GET_SEARCH_RESULTS = gql`
   query GetSearchResults($search: String!) {
-    products(where: { name_contains: $search }) {
+    products(
+      where: { name_contains: $search }
+      stage: PUBLISHED
+      locales: pt_BR
+    ) {
       id
       name
       description
@@ -23,6 +27,20 @@ export const GET_SEARCH_RESULTS = gql`
           name
           size
           color
+          createdAt
+          updatedAt
+        }
+        ... on ProductColorVariant {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        ... on ProductSizeVariant {
+          id
+          name
+          size
           createdAt
           updatedAt
         }

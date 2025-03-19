@@ -15,8 +15,14 @@ export default async function SearchPage({ searchParams }: Props) {
 
   const { products, categories, collections } = await getSearchResults(q);
 
+  const totalResults = products.length + categories.length + collections.length;
+
   return (
     <main className="max-w-7xl mx-auto py-12 space-y-12">
+      <h1 className="text-xl md:text-2xl font-medium px-4 md:px-8">
+        Exibindo {totalResults} resultados para a busca: <strong>{q}</strong>.
+      </h1>
+
       {!products.length && !categories.length && !collections.length && (
         <InfoCard>
           Nenhum resultado encontrado para a busca <strong>{q}</strong>.

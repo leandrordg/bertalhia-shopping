@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { formatPrice } from "@/utils/format";
@@ -6,14 +7,29 @@ import { ProductSelection } from "@/components/product-selection";
 
 interface Props {
   product: Product;
+  reviews: Review[];
 }
 
-export function ProductAside({ product }: Props) {
+export function ProductAside({ product, reviews }: Props) {
   const categories = product.categories.filter((category) => category.id);
   const collections = product.collections.filter((collection) => collection.id);
 
   return (
     <aside className="space-y-4 p-4">
+      {reviews.length === 0 && (
+        <p className="text-muted-foreground text-sm">
+          Seja o primeiro a avaliar.
+        </p>
+      )}
+
+      {reviews.length > 0 && (
+        <p className="flex items-center gap-2 text-xs text-muted-foreground">
+          {reviews.length === 1
+            ? "1 avaliação"
+            : `${reviews.length} avaliações`}
+        </p>
+      )}
+
       {(categories.length > 0 || collections.length > 0) && (
         <div className="flex flex-wrap gap-2">
           {categories.map((category) => (
@@ -50,6 +66,24 @@ export function ProductAside({ product }: Props) {
       </p>
 
       <ProductSelection product={product} />
+
+      <div className="flex items-center gap-4">
+        <div className="relative size-12">
+          <Image src="/icons/visa.svg" alt="visa" fill />
+        </div>
+        <div className="relative size-12">
+          <Image src="/icons/mastercard.svg" alt="mastercard" fill />
+        </div>
+        <div className="relative size-12">
+          <Image src="/icons/elo.svg" alt="elo" fill />
+        </div>
+        <div className="relative size-12">
+          <Image src="/icons/americanexpress.svg" alt="american express" fill />
+        </div>
+        <div className="relative size-12">
+          <Image src="/icons/dinersclub.svg" alt="diners" fill />
+        </div>
+      </div>
     </aside>
   );
 }

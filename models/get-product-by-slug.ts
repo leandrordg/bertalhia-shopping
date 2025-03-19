@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_PRODUCT_BY_SLUG = gql`
   query GetProductBySlug($slug: String!) {
-    products(where: { slug: $slug }) {
+    products(where: { slug: $slug }, stage: PUBLISHED, locales: pt_BR) {
       id
       name
       description
@@ -23,6 +23,20 @@ export const GET_PRODUCT_BY_SLUG = gql`
           name
           size
           color
+          createdAt
+          updatedAt
+        }
+        ... on ProductColorVariant {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        ... on ProductSizeVariant {
+          id
+          name
+          size
           createdAt
           updatedAt
         }

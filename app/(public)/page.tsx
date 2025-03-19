@@ -16,7 +16,7 @@ export default async function HomePage() {
     <main className="max-w-7xl mx-auto py-12 space-y-12">
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-muted-foreground uppercase px-4 md:px-8">
-          Coleções em destaque
+          Coleções
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {collections.map((collection) => (
