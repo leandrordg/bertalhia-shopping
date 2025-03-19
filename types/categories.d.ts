@@ -5,13 +5,7 @@ type Category = {
   description: string;
   createdAt: string;
   updatedAt: string;
-  images: {
-    id: string;
-    url: string;
-    fileName: string;
-    createdAt: string;
-    updatedAt: string;
-  }[];
+  images: Image[];
 };
 
 type CategoryWithProducts = Category & {

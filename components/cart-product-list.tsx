@@ -50,7 +50,7 @@ export function CartProductList() {
                     <Image
                       src={item.images[0].url}
                       alt={item.name}
-                      className="object-contain"
+                      className="object-contain mix-blend-multiply"
                       fill
                     />
                   </div>
