@@ -17,9 +17,7 @@ export function ProductAside({ product, reviews }: Props) {
   return (
     <aside className="space-y-4 p-4">
       {reviews.length === 0 && (
-        <p className="text-muted-foreground text-sm">
-          Seja o primeiro a avaliar.
-        </p>
+        <p className="text-muted-foreground text-sm">Sem avaliações.</p>
       )}
 
       {reviews.length > 0 && (
@@ -67,7 +65,7 @@ export function ProductAside({ product, reviews }: Props) {
 
       <ProductSelection product={product} />
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-center gap-4">
         <div className="relative size-12">
           <Image src="/icons/visa.svg" alt="visa" fill />
         </div>

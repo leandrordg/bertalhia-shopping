@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useCartStore } from "@/stores/cart";
+import { FREE_SHIPPING_THRESHOLD } from "@/utils/config";
+import { formatPrice } from "@/utils/format";
 
 import { ShippingProgress } from "@/components/shipping-progress";
 import { Button } from "@/components/ui/button";
@@ -12,34 +14,35 @@ import { TruckIcon } from "lucide-react";
 export function FreeShippingCard() {
   const { items, totalPrice } = useCartStore((state) => state);
 
-  const FREE_SHIPPING_THRESHOLD = 200;
-
-  const isFreeShipping = totalPrice >= FREE_SHIPPING_THRESHOLD;
+  const progress = Math.min((totalPrice / FREE_SHIPPING_THRESHOLD) * 100, 100);
+  const priceRemaining = FREE_SHIPPING_THRESHOLD - totalPrice;
+  const isFreeShipping = FREE_SHIPPING_THRESHOLD <= totalPrice;
 
   if (isFreeShipping) {
     return (
       <div className="flex flex-col gap-4 items-center text-center bg-green-100 border-green-300 text-green-700 p-8 rounded-xl">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-green-100 via-transparent to-green-100 z-10" />
-          <div className="flex items-center justify-center *:not-first:-ml-2">
-            {items.slice(0, 8).map((item) => (
-              <div
-                key={item.id}
-                className="relative size-14 rounded-full overflow-clip border-2 shrink-0"
-              >
+        <div className="flex items-center justify-center *:not-first:-ml-4">
+          {items.slice(0, 8).map((item) => (
+            <Link
+              key={item.id}
+              href={`/products/${item.slug}?variant=${item.variantId}`}
+            >
+              <div className="relative size-14 rounded-full overflow-clip bg-muted border-2 shrink-0">
                 <Image src={item.images[0].url} alt={item.name} fill />
               </div>
-            ))}
-          </div>
+            </Link>
+          ))}
         </div>
 
-        <ShippingProgress
-          totalPrice={totalPrice}
-          freeShippingThreshold={FREE_SHIPPING_THRESHOLD}
-        />
+        <p>
+          Parabéns! Você ganhou <strong>FRETE GRÁTIS</strong> para esta compra.
+        </p>
+
+        <ShippingProgress progress={progress} />
 
         <p className="text-sm">
-          Compre mais produtos e ganhe FRETE GRÁTIS para todo o Brasil.
+          Finalize sua compra agora mesmo e garanta a entrega gratuita até a sua
+          casa.
         </p>
 
         <Button variant="shipping" asChild>
@@ -49,9 +52,41 @@ export function FreeShippingCard() {
     );
   }
 
+  if (progress > 0 && progress < 100) {
+    return (
+      <div className="flex flex-col gap-4 items-center text-center bg-green-100 border-green-300 text-green-700 p-8 rounded-xl">
+        <div className="flex items-center justify-center *:not-first:-ml-4">
+          {items.slice(0, 8).map((item) => (
+            <Link
+              key={item.id}
+              href={`/products/${item.slug}?variant=${item.variantId}`}
+            >
+              <div className="relative size-14 rounded-full overflow-clip bg-muted border-2 shrink-0">
+                <Image src={item.images[0].url} alt={item.name} fill />
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <p className="text-sm">
+          Adicione mais <strong>{formatPrice(priceRemaining)}</strong> ao
+          carrinho e ganhe <strong>FRETE GRÁTIS</strong> para todo o Brasil.
+        </p>
+
+        <ShippingProgress progress={progress} />
+
+        <p className="text-sm">
+          Entrega <strong>GRÁTIS</strong> para todo o Brasil em compras acima de{" "}
+          <strong>{formatPrice(FREE_SHIPPING_THRESHOLD)}</strong>.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4 items-center text-center bg-green-100 border-green-300 text-green-700 p-8 rounded-xl">
       <TruckIcon className="size-6" />
+
       <p>
         Entrega <span className="font-bold">GRÁTIS</span> para todo o Brasil.
       </p>
@@ -60,10 +95,6 @@ export function FreeShippingCard() {
         Adquira frete grátis comprando produtos acima de{" "}
         <span className="font-bold">R$ 200,00</span>, válido para todo o Brasil.
       </p>
-
-      <Button variant="shipping" asChild>
-        <Link href="/cart">Comprar agora</Link>
-      </Button>
     </div>
   );
 }

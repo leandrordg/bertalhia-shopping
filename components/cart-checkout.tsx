@@ -4,11 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useCartStore } from "@/stores/cart";
+import {
+  DEFAULT_SHIPPING_PRICE,
+  FREE_SHIPPING_THRESHOLD,
+} from "@/utils/config";
 import { formatPrice } from "@/utils/format";
 
-import { FreeShippingCard } from "@/components/free-shipping-card";
 import { Button } from "@/components/ui/button";
-import { TruckIcon } from "lucide-react";
 
 interface Props {
   products: Product[];
@@ -17,38 +19,35 @@ interface Props {
 export function CartCheckout({ products }: Props) {
   const { items, totalPrice } = useCartStore((state) => state);
 
+  if (!items.length) return null;
+
+  const hasFreeShipping = FREE_SHIPPING_THRESHOLD <= totalPrice;
+
+  const totalPriceWithShipping =
+    totalPrice + (hasFreeShipping ? 0 : DEFAULT_SHIPPING_PRICE);
+
   return (
     <section className="space-y-12">
-      {!items.length && <FreeShippingCard />}
-
-      {items.length > 0 && (
-        <div className="flex flex-col gap-4 flex-1 bg-muted/50 p-4 md:p-8 rounded-xl">
-          <div className="px-4 py-2 border rounded-xl flex items-center gap-2 bg-green-100 border-green-300 text-green-700">
-            <TruckIcon className="size-6" />
-            <p className="text-sm">
-              Você tem <span className="font-bold">FRETE GRÁTIS</span> para o
-              seu pedido.
-            </p>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Subtotal</span>
-            <span>{formatPrice(totalPrice)}</span>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Frete</span>
-            <span className="text-green-600">Grátis</span>
-          </div>
-
-          <div className="flex justify-between font-medium">
-            <span>Total</span>
-            <span>{formatPrice(totalPrice)}</span>
-          </div>
-
-          <Button>Finalizar compra</Button>
+      <div className="flex flex-col gap-4 bg-muted/50 p-4 md:p-8 rounded-xl">
+        <div className="flex justify-between text-sm">
+          <span className="text-muted-foreground">Subtotal</span>
+          <span>{formatPrice(totalPrice)}</span>
         </div>
-      )}
+
+        <div className="flex justify-between text-sm">
+          <span className="text-muted-foreground">Frete</span>
+          <span className="text-green-600 font-medium">
+            {hasFreeShipping ? "Grátis" : formatPrice(DEFAULT_SHIPPING_PRICE)}
+          </span>
+        </div>
+
+        <div className="flex justify-between font-medium">
+          <span>Total</span>
+          <span>{formatPrice(totalPriceWithShipping)}</span>
+        </div>
+
+        <Button>Finalizar compra</Button>
+      </div>
 
       {products.length > 0 && (
         <div className="space-y-12">

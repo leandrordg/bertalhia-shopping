@@ -45,7 +45,7 @@ export function CartProductList() {
                 key={item.id + item.variantId}
                 className="flex gap-4 md:gap-8 md:items-center p-4 md:p-8 bg-muted/50 rounded-xl"
               >
-                <Link href={`/products/${item.slug}`}>
+                <Link href={`/products/${item.slug}?variant=${item.variantId}`}>
                   <div className="relative size-12 sm:size-20 md:size-28 shrink-0">
                     <Image
                       src={item.images[0].url}

@@ -8,9 +8,15 @@ export const GET_SIMILAR_PRODUCTS = gql`
   ) {
     products(
       where: {
-        categories_some: { id_in: $categoryIds }
-        collections_some: { id_in: $collectionIds }
-        slug_not: $slug
+        AND: [
+          {
+            OR: [
+              { categories_some: { id_in: $categoryIds } }
+              { collections_some: { id_in: $collectionIds } }
+            ]
+          }
+          { NOT: { slug: $slug } }
+        ]
       }
       stage: PUBLISHED
       locales: pt_BR

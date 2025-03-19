@@ -52,6 +52,13 @@ export const GET_SEARCH_RESULTS = gql`
         description
         createdAt
         updatedAt
+        images {
+          id
+          fileName
+          createdAt
+          updatedAt
+          url
+        }
       }
       categories {
         id
@@ -60,6 +67,13 @@ export const GET_SEARCH_RESULTS = gql`
         description
         createdAt
         updatedAt
+        images {
+          id
+          fileName
+          createdAt
+          updatedAt
+          url
+        }
       }
     }
 
@@ -70,6 +84,13 @@ export const GET_SEARCH_RESULTS = gql`
       description
       createdAt
       updatedAt
+      images {
+        id
+        fileName
+        createdAt
+        updatedAt
+        url
+      }
     }
 
     categories(where: { name_contains: $search }) {
@@ -79,6 +100,13 @@ export const GET_SEARCH_RESULTS = gql`
       description
       createdAt
       updatedAt
+      images {
+        id
+        fileName
+        createdAt
+        updatedAt
+        url
+      }
     }
   }
 `;
