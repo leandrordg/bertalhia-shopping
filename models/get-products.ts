@@ -48,6 +48,13 @@ export const GET_PRODUCTS = gql`
         description
         createdAt
         updatedAt
+        bannerImage {
+          id
+          fileName
+          createdAt
+          updatedAt
+          url
+        }
       }
       categories {
         id
@@ -56,6 +63,13 @@ export const GET_PRODUCTS = gql`
         description
         createdAt
         updatedAt
+        bannerImage {
+          id
+          fileName
+          createdAt
+          updatedAt
+          url
+        }
       }
     }
   }

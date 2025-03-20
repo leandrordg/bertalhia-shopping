@@ -52,7 +52,7 @@ export const GET_SEARCH_RESULTS = gql`
         description
         createdAt
         updatedAt
-        images {
+        bannerImage {
           id
           fileName
           createdAt
@@ -67,7 +67,7 @@ export const GET_SEARCH_RESULTS = gql`
         description
         createdAt
         updatedAt
-        images {
+        bannerImage {
           id
           fileName
           createdAt
@@ -84,7 +84,7 @@ export const GET_SEARCH_RESULTS = gql`
       description
       createdAt
       updatedAt
-      images {
+      bannerImage {
         id
         fileName
         createdAt
@@ -100,7 +100,7 @@ export const GET_SEARCH_RESULTS = gql`
       description
       createdAt
       updatedAt
-      images {
+      bannerImage {
         id
         fileName
         createdAt

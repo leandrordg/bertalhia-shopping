@@ -13,11 +13,11 @@ export async function getSimilarProducts(
   });
 
   const productsByCategory = data.products.filter((p: Product) =>
-    p.categories.some((category) => categoryIds.includes(category.id))
+    p.categories?.some((category) => categoryIds.includes(category.id))
   );
 
   const productsByCollection = data.products.filter((p: Product) =>
-    p.collections.some((collection) => collectionIds.includes(collection.id))
+    p.collections?.some((collection) => collectionIds.includes(collection.id))
   );
 
   return {

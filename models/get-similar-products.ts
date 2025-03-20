@@ -66,6 +66,13 @@ export const GET_SIMILAR_PRODUCTS = gql`
         description
         createdAt
         updatedAt
+        bannerImage {
+          id
+          fileName
+          createdAt
+          updatedAt
+          url
+        }
       }
       categories {
         id
@@ -74,6 +81,13 @@ export const GET_SIMILAR_PRODUCTS = gql`
         description
         createdAt
         updatedAt
+        bannerImage {
+          id
+          fileName
+          createdAt
+          updatedAt
+          url
+        }
       }
     }
   }

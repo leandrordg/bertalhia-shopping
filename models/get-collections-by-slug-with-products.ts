@@ -9,7 +9,7 @@ export const GET_COLLECTIONS_BY_SLUG_WITH_PRODUCTS = gql`
       description
       createdAt
       updatedAt
-      images {
+      bannerImage {
         id
         fileName
         createdAt
@@ -62,6 +62,28 @@ export const GET_COLLECTIONS_BY_SLUG_WITH_PRODUCTS = gql`
           description
           createdAt
           updatedAt
+          bannerImage {
+            id
+            fileName
+            createdAt
+            updatedAt
+            url
+          }
+        }
+        categories {
+          id
+          name
+          slug
+          description
+          createdAt
+          updatedAt
+          bannerImage {
+            id
+            fileName
+            createdAt
+            updatedAt
+            url
+          }
         }
       }
     }

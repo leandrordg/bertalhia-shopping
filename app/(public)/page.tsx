@@ -5,8 +5,8 @@ import { getProducts } from "@/hooks/get-products";
 import { CategoryCard } from "@/components/category-card";
 import { CollectionCard } from "@/components/collection-card";
 import { FreeShippingCard } from "@/components/free-shipping-card";
-import { ProductCard } from "@/components/product-card";
 import { InfoCard } from "@/components/info-card";
+import { ProductCard } from "@/components/product-card";
 
 export default async function HomePage() {
   const products = await getProducts();
@@ -15,23 +15,11 @@ export default async function HomePage() {
 
   return (
     <main className="max-w-7xl mx-auto py-12 space-y-12">
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold text-muted-foreground uppercase px-4 md:px-8">
-          Coleções
-        </h3>
-
-        {!collections.length && (
-          <InfoCard>Não há coleções disponíveis no momento.</InfoCard>
-        )}
-
-        {collections.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {collections.map((collection) => (
-              <CollectionCard key={collection.id} collection={collection} />
-            ))}
-          </div>
-        )}
-      </div>
+      {collections[0] && (
+        <div className="space-y-4">
+          <CollectionCard collection={collections[0]} />
+        </div>
+      )}
 
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-muted-foreground uppercase px-4 md:px-8">
@@ -61,13 +49,19 @@ export default async function HomePage() {
         )}
 
         {categories.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {categories.map((category) => (
               <CategoryCard key={category.id} category={category} />
             ))}
           </div>
         )}
       </div>
+
+      {collections[1] && (
+        <div className="space-y-4">
+          <CollectionCard collection={collections[1]} />
+        </div>
+      )}
 
       <FreeShippingCard />
     </main>

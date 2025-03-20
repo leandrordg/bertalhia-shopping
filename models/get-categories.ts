@@ -9,7 +9,7 @@ export const GET_CATEGORIES = gql`
       description
       createdAt
       updatedAt
-      images {
+      bannerImage {
         id
         fileName
         createdAt

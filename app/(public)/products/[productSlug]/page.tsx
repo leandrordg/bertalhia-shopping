@@ -2,6 +2,7 @@ import { getProductBySlug } from "@/hooks/get-product-by-slug";
 import { getReviewsByProductSlug } from "@/hooks/get-reviews-by-product-slug";
 import { getSimilarProducts } from "@/hooks/get-similar-products";
 
+import { CollectionCard } from "@/components/collection-card";
 import { FreeShippingCard } from "@/components/free-shipping-card";
 import { ProductAside } from "@/components/product-aside";
 import { ProductCarousel } from "@/components/product-carousel";
@@ -39,6 +40,15 @@ export default async function ProductSlugPage({ params }: Props) {
 
       <ProductImages product={product} />
 
+      {product.collections[0] && (
+        <div className="space-y-12">
+          <h3 className="text-xl font-bold text-center text-muted-foreground uppercase px-4 md:px-8">
+            Explore A Coleção
+          </h3>
+          <CollectionCard collection={product.collections[0]} />
+        </div>
+      )}
+
       <ProductReviews reviews={reviews} />
 
       <ProductList
@@ -50,6 +60,15 @@ export default async function ProductSlugPage({ params }: Props) {
         title="Complete Seu Estilo"
         products={productsByCollection}
       />
+
+      {product.collections[1] && (
+        <div className="space-y-12">
+          <h3 className="text-xl font-bold text-center text-muted-foreground uppercase px-4 md:px-8">
+            Para Ficar Por Dentro
+          </h3>
+          <CollectionCard collection={product.collections[1]} />
+        </div>
+      )}
     </main>
   );
 }

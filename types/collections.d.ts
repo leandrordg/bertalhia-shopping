@@ -5,7 +5,7 @@ type Collection = {
   description: string;
   createdAt: string;
   updatedAt: string;
-  images: Image[];
+  bannerImage: Image;
 };
 
 type CollectionWithProducts = Collection & {

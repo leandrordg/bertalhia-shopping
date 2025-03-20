@@ -14,17 +14,14 @@ interface Props {
 
 export function ProductCarousel({ product }: Props) {
   return (
-    <Carousel className="w-full overflow-clip rounded-xl">
+    <Carousel className="w-full rounded-xl overflow-clip">
       <CarouselContent>
         {product.images.map((image) => (
-          <CarouselItem
-            key={image.id}
-            className="relative w-full h-[60dvh]"
-          >
+          <CarouselItem key={image.id} className="relative w-full h-[60dvh]">
             <Image
               src={image.url}
               alt={image.fileName}
-              className="mix-blend-multiply object-contain p-2"
+              className="mix-blend-multiply object-contain"
               fill
             />
           </CarouselItem>
