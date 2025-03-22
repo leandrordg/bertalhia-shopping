@@ -60,7 +60,7 @@ export default async function ProfilePage() {
         {orders.length > 0 && (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
             {orders.map((order) => {
-              const { orderItems, id, stripeCheckoutId, total } = order;
+              const { orderItems, id, total } = order;
 
               const orderTitle = `${orderItems[0].product.name} e mais ${
                 orderItems.length - 1
