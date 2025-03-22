@@ -5,7 +5,9 @@ import { getCategories } from "@/hooks/get-categories";
 import { getCollections } from "@/hooks/get-collections";
 
 import { HeaderCartButton } from "@/components/header-cart-button";
+import { HeaderLink } from "@/components/header-link";
 import { HeaderSearchButton } from "@/components/header-search-button";
+import { HeaderUserButton } from "@/components/header-user-button";
 
 export async function Header() {
   const categories = await getCategories();
@@ -13,7 +15,7 @@ export async function Header() {
 
   return (
     <header className="h-24 bg-background">
-      <div className="flex items-center gap-8 h-full max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="flex items-center gap-8 h-full max-w-7xl mx-auto px-4 md:px-8">
         <Link href="/">
           <div className="relative w-32 h-10">
             <Image
@@ -27,28 +29,27 @@ export async function Header() {
 
         <nav className="hidden md:flex gap-4">
           {categories.map((category) => (
-            <Link
+            <HeaderLink
               key={category.id}
+              id={category.id}
+              name={category.name}
               href={`/categories/${category.slug}`}
-              className="text-sm text-foreground/80 hover:text-foreground font-light"
-            >
-              {category.name}
-            </Link>
+            />
           ))}
           {collections.map((collection) => (
-            <Link
+            <HeaderLink
               key={collection.id}
+              id={collection.id}
+              name={collection.name}
               href={`/collections/${collection.slug}`}
-              className="text-sm text-foreground/80 hover:text-foreground font-light"
-            >
-              {collection.name}
-            </Link>
+            />
           ))}
         </nav>
 
         <div className="ml-auto flex items-center gap-4">
           <HeaderSearchButton />
           <HeaderCartButton />
+          <HeaderUserButton />
         </div>
       </div>
     </header>
