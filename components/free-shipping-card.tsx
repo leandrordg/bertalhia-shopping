@@ -105,7 +105,10 @@ export function FreeShippingCard({ products }: Props) {
 
       <p className="text-sm">
         Adquira frete grátis comprando produtos acima de{" "}
-        <span className="font-bold">R$ 200,00</span>, válido para todo o Brasil.
+        <span className="font-bold">
+          {formatPrice(FREE_SHIPPING_THRESHOLD).replace(",00", "")}
+        </span>
+        , válido para todo o Brasil.
       </p>
     </div>
   );

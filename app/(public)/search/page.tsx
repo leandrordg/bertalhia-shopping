@@ -52,7 +52,7 @@ export default async function SearchPage({ searchParams }: Props) {
             Categorias encontradas
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 px-4 lg:px-8">
             {categories.map((category) => (
               <CategoryCard key={category.id} category={category} />
             ))}
@@ -66,7 +66,7 @@ export default async function SearchPage({ searchParams }: Props) {
             Coleções encontradas
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+          <div className="grid grid-cols-1 gap-4 lg:gap-8 px-4 lg:px-8">
             {collections.map((collection) => (
               <CollectionCard key={collection.id} collection={collection} />
             ))}

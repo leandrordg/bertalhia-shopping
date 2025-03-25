@@ -8,12 +8,12 @@ interface Props {
 export function CategoryCard({ category }: Props) {
   return (
     <Link href={`/categories/${category.slug}`}>
-      <div className="rounded-xl group text-center cursor-pointer p-4 py-8 md:px-8">
-        <div className="relative h-48 w-full">
+      <div className="rounded-xl group text-center cursor-pointer">
+        <div className="relative h-72 w-full rounded-xl overflow-clip">
           <Image
             src={category.bannerImage.url}
             alt={category.bannerImage.fileName}
-            className="object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
             fill
           />
         </div>

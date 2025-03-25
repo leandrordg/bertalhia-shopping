@@ -1,7 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-
 import { getOrderById } from "@/hooks/get-order-by-id";
+import { getProducts } from "@/hooks/get-products";
 import {
   DEFAULT_SHIPPING_PRICE,
   FREE_SHIPPING_THRESHOLD,
@@ -9,8 +7,10 @@ import {
 import { formatDate, formatPrice } from "@/utils/format";
 
 import { FreeShippingCard } from "@/components/free-shipping-card";
-import { CalendarIcon, ChevronRightIcon } from "lucide-react";
-import { getProducts } from "@/hooks/get-products";
+import { InfoCard } from "@/components/info-card";
+import { ProductOrderCard } from "@/components/product-order-card";
+import { CalendarIcon } from "lucide-react";
+import Image from "next/image";
 
 interface Props {
   params: Promise<{ orderId: string }>;
@@ -24,81 +24,43 @@ export default async function OrderIdPage({ params }: Props) {
 
   return (
     <main className="max-w-7xl mx-auto py-12 space-y-12">
-      <h3 className="text-xl font-bold text-muted-foreground uppercase px-4 md:px-8">
-        Visualizando pedido
-      </h3>
+      <div className="space-y-4">
+        <h3 className="text-xl font-bold text-muted-foreground uppercase px-4 md:px-8 break-words">
+          Visualizando pedido{" "}
+          <span className="text-foreground">#{order.id}</span>
+        </h3>
 
-      <div className="flex flex-wrap items-center gap-4 px-4 md:px-8">
-        <p className="text-xs text-muted-foreground">ID: {order.id}</p>
+        <div className="flex flex-wrap items-center gap-2 px-4 md:px-8">
+          <p className="text-xs text-muted-foreground">
+            <CalendarIcon className="size-4 inline-block -mt-0.5 mr-1" />
+            {formatDate(order.createdAt, {
+              dateStyle: "full",
+              timeStyle: "short",
+            })}
+          </p>
 
-        <p className="text-xs text-muted-foreground">
-          <CalendarIcon className="size-4 inline-block -mt-0.5 mr-1" />
-          {formatDate(order.createdAt, {
-            dateStyle: "full",
-            timeStyle: "short",
-          })}
-        </p>
+          <span className="text-xs text-muted-foreground">•</span>
+
+          <p className="text-xs text-muted-foreground">
+            {order.orderItems.length}{" "}
+            {order.orderItems.length === 1 ? "produto" : "produtos"} adquiridos
+          </p>
+        </div>
       </div>
 
-      <section className="grid grid-cols-1 lg:gap-8 lg:grid-cols-3 lg:items-start">
-        <div className="lg:col-span-2 flex flex-col gap-8">
-          {order.orderItems.map((item) => {
-            const selectedVariant = item.product.variants.find(
-              (v) => v.id === item.productVariant
-            );
-
-            return (
-              <div
-                key={item.id}
-                className="flex gap-4 md:gap-8 p-4 py-8 md:px-8 md:items-center rounded-xl hover:bg-muted/50"
-              >
-                <Link
-                  href={`/products/${item.product.slug}?variant=${item.productVariant}`}
-                >
-                  <div className="relative size-12 sm:size-20 md:size-28 shrink-0">
-                    <Image
-                      src={item.product.images[0].url}
-                      alt={item.product.name}
-                      className="object-contain mix-blend-multiply"
-                      fill
-                    />
-                  </div>
-                </Link>
-
-                <div className="flex flex-col gap-2 md:flex-row md:gap-4 md:items-center flex-1">
-                  <div className="flex-[3] space-y-1.5">
-                    <p className="text-sm">{selectedVariant?.name}</p>
-
-                    <h2 className="text-lg font-semibold">
-                      {item.product.name}
-                    </h2>
-
-                    <p className="text-sm text-muted-foreground">
-                      Qtd: {item.quantity} unidades.
-                    </p>
-                    <Link
-                      href={`/reviews/new?product=${item.product.id}`}
-                      className="text-sm text-muted-foreground hover:text-foreground hover:underline"
-                    >
-                      Avaliar produto
-                      <ChevronRightIcon className="size-4 inline-block -mt-0.5 ml-1" />
-                    </Link>
-                  </div>
-                  <div className="md:text-right shrink-0 md:space-y-1.5 md:min-w-32">
-                    <p className="text-sm text-muted-foreground">
-                      {formatPrice(item.product.price)}/un
-                    </p>
-                    <p className="text-lg font-bold tracking-tight">
-                      {formatPrice(item.total)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+      <section className="flex flex-col md:flex-row">
+        <div className="grid grid-cols-1 divide-y flex-[2]">
+          {order.orderItems.map(({ product, productVariant, quantity }) => (
+            <ProductOrderCard
+              key={product.id}
+              product={product}
+              variant={productVariant}
+              quantity={quantity}
+            />
+          ))}
         </div>
 
-        <aside className="lg:col-span-1 bg-muted/50 p-4 py-8 md:p-8 rounded-xl overflow-clip space-y-4">
+        <aside className="flex-1 border bg-muted/20 p-4 py-8 md:p-8 rounded-xl overflow-clip space-y-4">
           <p className="text-xs text-muted-foreground">
             ID de pagamento: {order.stripeCheckoutId}
           </p>
@@ -107,11 +69,45 @@ export default async function OrderIdPage({ params }: Props) {
             Resumo da compra
           </h4>
 
+          {order.orderItems.map(({ product, productVariant, quantity }) => (
+            <div
+              key={product.id}
+              className="flex items-start gap-1 border rounded-xl overflow-clip p-2 bg-white"
+            >
+              <div className="relative size-10">
+                <Image src={product.images[0].url} alt={product.name} fill />
+              </div>
+
+              <div>
+                <p className="text-xs text-muted-foreground">
+                  {
+                    product.variants.find(
+                      (variant) => variant.id === productVariant
+                    )!.name
+                  }
+                </p>
+                <p className="text-sm font-medium">{product.name}</p>
+                <p className="text-xs text-muted-foreground">
+                  {quantity}x {formatPrice(product.price)}
+                </p>
+              </div>
+            </div>
+          ))}
+
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">
+              Subtotal ({order.orderItems.length})
+            </span>
+            <span className="font-medium">
+              {formatPrice(order.total + DEFAULT_SHIPPING_PRICE)}
+            </span>
+          </div>
+
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Frete</span>
             <span className="text-green-600 font-medium">
               {order.total > FREE_SHIPPING_THRESHOLD
-                ? "Grátis"
+                ? `Grátis (-${formatPrice(DEFAULT_SHIPPING_PRICE)})`
                 : formatPrice(DEFAULT_SHIPPING_PRICE)}
             </span>
           </div>
@@ -122,6 +118,16 @@ export default async function OrderIdPage({ params }: Props) {
           </div>
         </aside>
       </section>
+
+      <InfoCard>
+        O prazo de entrega é de até 7 dias úteis após a confirmação do
+        pagamento.
+        <br />
+        <br /> Pagamentos realizados via PIX são confirmados no mesmo dia. O
+        código de rastreio será enviado para o e-mail cadastrado.
+        <br />
+        <br /> Caso tenha alguma dúvida, entre em contato conosco.
+      </InfoCard>
 
       <FreeShippingCard products={products} />
     </main>

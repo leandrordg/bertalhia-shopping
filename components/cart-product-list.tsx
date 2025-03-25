@@ -41,7 +41,7 @@ export function CartProductList({ products }: Props) {
       )}
 
       {(activeProducts.length > 0 || inactiveProducts.length > 0) && (
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 divide-y md:divide-none">
           {activeProducts.map((product) => (
             <ProductCartCard
               key={product.id + product.variantId}

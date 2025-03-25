@@ -27,9 +27,9 @@ export default async function ProfilePage() {
       </h3>
 
       <section className="space-y-12">
-        <div className="bg-muted/50 p-4 py-8 md:p-8 rounded-xl overflow-clip flex flex-col gap-4">
+        <div className="p-4 py-8 md:p-8 rounded-xl overflow-clip flex flex-col gap-4">
           <div className="flex items-start gap-4">
-            <div className="relative size-16 md:size-20 rounded-full overflow-clip">
+            <div className="relative size-12 rounded-full overflow-clip">
               <Image
                 src={session.user.image!}
                 alt={session.user.name!}
@@ -73,7 +73,7 @@ export default async function ProfilePage() {
                 <div
                   key={id}
                   className={cn(
-                    "flex flex-col gap-2 bg-muted/50 p-4 py-8 md:px-8 rounded-xl overflow-clip",
+                    "flex flex-col gap-2 p-4 py-8 md:px-8 rounded-xl overflow-clip hover:bg-muted/50 transition-colors",
                     orders.length === 1 && "md:col-span-2"
                   )}
                 >

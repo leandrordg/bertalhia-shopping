@@ -26,6 +26,8 @@ export function CartCheckout({ products }: Props) {
 
   const { activeProducts } = validateProducts(products, items);
 
+  if (!activeProducts.length) return null;
+
   const totalPrice = activeProducts.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -48,14 +50,20 @@ export function CartCheckout({ products }: Props) {
     <section className="space-y-12">
       <div className="flex flex-col gap-4 bg-muted/50 p-4 py-8 md:px-8 rounded-xl">
         <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">Subtotal</span>
-          <span>{formatPrice(totalPrice)}</span>
+          <span className="text-muted-foreground">
+            Subtotal ({activeProducts.length})
+          </span>
+          <span className="font-medium">
+            {formatPrice(totalPrice + DEFAULT_SHIPPING_PRICE)}
+          </span>
         </div>
 
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Frete</span>
           <span className="text-green-600 font-medium">
-            {hasFreeShipping ? "Grátis" : formatPrice(DEFAULT_SHIPPING_PRICE)}
+            {totalPrice > FREE_SHIPPING_THRESHOLD
+              ? `Grátis (-${formatPrice(DEFAULT_SHIPPING_PRICE)})`
+              : formatPrice(DEFAULT_SHIPPING_PRICE)}
           </span>
         </div>
 
