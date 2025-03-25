@@ -39,9 +39,7 @@ export function CartCheckout({ products }: Props) {
   const handleCheckout = async () => {
     if (!items.length) return;
 
-    if (!session) {
-      router.push("/sign-in");
-    }
+    if (!session) return router.push("/sign-in");
 
     await checkout(items);
   };

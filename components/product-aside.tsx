@@ -20,7 +20,7 @@ export function ProductAside({ product, reviews }: Props) {
   return (
     <aside className="space-y-4 p-4">
       {reviews.length === 0 && (
-        <p className="text-muted-foreground text-sm">Sem avaliações.</p>
+        <p className="text-xs text-muted-foreground">Sem avaliações.</p>
       )}
 
       {reviews.length > 0 && (

@@ -45,7 +45,7 @@ export async function checkout(cartItems: CartItem[]) {
     line_items,
     mode: "payment",
     payment_method_types: ["card"],
-    success_url: `${env.NEXT_PUBLIC_BASE_URL}/success`,
+    success_url: `${env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}&userId=${userSession.user?.id}`,
     cancel_url: `${env.NEXT_PUBLIC_BASE_URL}/cart`,
   });
 
