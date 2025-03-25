@@ -20,27 +20,37 @@ interface Props {
 }
 
 export function ProductSelection({ product }: Props) {
-  const variants = product.variants.filter((variant) => variant.id);
-
-  const [quantity, setQuantity] = useQueryState("quantity", {
-    defaultValue: "1",
-  });
+  const addItemToCart = useCartStore((state) => state.addItem);
 
   const [currVariant, setCurrVariant] = useQueryState("variant", {
     defaultValue: "",
   });
 
-  const addItemToCart = useCartStore((state) => state.addItem);
+  const [quantity, setQuantity] = useQueryState("quantity", {
+    defaultValue: "",
+  });
+
+  const variantsWithQuantity = product.variants.filter((v) => v.quantity > 0);
+
+  const selectedVariant = variantsWithQuantity.find(
+    (v) => v.id === currVariant
+  );
 
   const handleAddToCart = () => {
-    const selectedVariant = variants
-      ? variants.find((v) => v.id === currVariant)
-      : null;
+    const parsedQuantity = parseInt(quantity);
+
+    if (!selectedVariant) return toast.error("Por favor, selecione um estilo.");
+
+    if (isNaN(parsedQuantity) || parsedQuantity <= 0)
+      return toast.error("Selecione uma quantidade válida.");
+
+    if (parsedQuantity > selectedVariant.quantity)
+      return toast.error("Quantidade indisponível.");
 
     const cartItem = {
       ...product,
       quantity: parseInt(quantity),
-      variantId: selectedVariant ? selectedVariant.id : "",
+      variantId: selectedVariant.id,
     };
 
     addItemToCart(cartItem);
@@ -48,10 +58,15 @@ export function ProductSelection({ product }: Props) {
     toast.success("Produto adicionado ao carrinho!");
   };
 
+  const onVariantChange = (value: string) => {
+    setCurrVariant(value);
+    setQuantity("");
+  };
+
   return (
     <div className="flex flex-col gap-8">
       <div className="grid grid-cols-5 gap-4">
-        {variants.length > 0 && (
+        {variantsWithQuantity.length > 0 && (
           <div className="flex flex-col gap-2 col-span-3">
             <label
               htmlFor="variant"
@@ -59,16 +74,13 @@ export function ProductSelection({ product }: Props) {
             >
               Estilos
             </label>
-            <Select
-              value={currVariant}
-              onValueChange={(value) => setCurrVariant(value)}
-            >
+            <Select value={currVariant} onValueChange={onVariantChange}>
               <SelectTrigger id="variant" className="w-full" size="lg">
                 <SelectValue placeholder="Selecione um estilo..." />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {variants.map((variant) => (
+                  {variantsWithQuantity.map((variant) => (
                     <SelectItem key={variant.id} value={variant.id}>
                       {variant.name}
                     </SelectItem>
@@ -88,16 +100,27 @@ export function ProductSelection({ product }: Props) {
           </label>
 
           <Select value={quantity} onValueChange={setQuantity}>
-            <SelectTrigger id="quantity" className="w-full" size="lg">
-              <SelectValue placeholder="1 ou mais" />
+            <SelectTrigger
+              id="quantity"
+              className="w-full"
+              size="lg"
+              disabled={!selectedVariant}
+            >
+              <SelectValue
+                placeholder={
+                  !selectedVariant ? "Selecione uma variante" : "1 ou mais..."
+                }
+              />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {[1, 2, 3, 4, 5].map((quantity) => (
-                  <SelectItem key={quantity} value={`${quantity}`}>
-                    {quantity}
-                  </SelectItem>
-                ))}
+                {Array.from({ length: selectedVariant?.quantity ?? 0 }).map(
+                  (_, i) => (
+                    <SelectItem key={i} value={`${i + 1}`}>
+                      {i + 1} unidade{i > 0 && "s"}
+                    </SelectItem>
+                  )
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -106,7 +129,7 @@ export function ProductSelection({ product }: Props) {
 
       <Button
         size="lg"
-        disabled={variants.length > 0 && !currVariant}
+        disabled={!currVariant || !quantity}
         onClick={handleAddToCart}
       >
         <ShoppingBasketIcon />

@@ -7,6 +7,7 @@ export async function getCategoryBySlugWithProducts(
   const { data } = await queryClient.query({
     query: GET_CATEGORIES_BY_SLUG_WITH_PRODUCTS,
     variables: { slug },
+    fetchPolicy: "network-only",
   });
 
   return data.categories[0];

@@ -10,6 +10,7 @@ export async function getSimilarProducts(
   const { data } = await queryClient.query({
     query: GET_SIMILAR_PRODUCTS,
     variables: { slug: product.slug, categoryIds, collectionIds },
+    fetchPolicy: "network-only",
   });
 
   const productsByCategory = data.products.filter((p: Product) =>

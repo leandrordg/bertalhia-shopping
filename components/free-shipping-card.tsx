@@ -6,13 +6,25 @@ import Link from "next/link";
 import { useCartStore } from "@/stores/cart";
 import { FREE_SHIPPING_THRESHOLD } from "@/utils/config";
 import { formatPrice } from "@/utils/format";
+import { validateProducts } from "@/utils/validate-products";
 
 import { ShippingProgress } from "@/components/shipping-progress";
 import { Button } from "@/components/ui/button";
 import { TruckIcon } from "lucide-react";
 
-export function FreeShippingCard() {
-  const { items, totalPrice } = useCartStore((state) => state);
+interface Props {
+  products: Product[];
+}
+
+export function FreeShippingCard({ products }: Props) {
+  const { items } = useCartStore((state) => state);
+
+  const { activeProducts } = validateProducts(products, items);
+
+  const totalPrice = activeProducts.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   const progress = Math.min((totalPrice / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const priceRemaining = FREE_SHIPPING_THRESHOLD - totalPrice;
@@ -22,9 +34,9 @@ export function FreeShippingCard() {
     return (
       <div className="flex flex-col gap-4 items-center text-center bg-green-100 border-green-300 text-green-700 p-8 rounded-xl">
         <div className="flex items-center justify-center *:not-first:-ml-4">
-          {items.slice(0, 8).map((item) => (
+          {activeProducts.slice(0, 8).map((item) => (
             <Link
-              key={item.id}
+              key={item.id + item.variantId}
               href={`/products/${item.slug}?variant=${item.variantId}`}
             >
               <div className="relative size-14 rounded-full overflow-clip bg-muted border-2 shrink-0">
@@ -56,9 +68,9 @@ export function FreeShippingCard() {
     return (
       <div className="flex flex-col gap-4 items-center text-center bg-green-100 border-green-300 text-green-700 p-8 rounded-xl">
         <div className="flex items-center justify-center *:not-first:-ml-4">
-          {items.slice(0, 8).map((item) => (
+          {activeProducts.slice(0, 8).map((item) => (
             <Link
-              key={item.id}
+              key={item.id + item.variantId}
               href={`/products/${item.slug}?variant=${item.variantId}`}
             >
               <div className="relative size-14 rounded-full overflow-clip bg-muted border-2 shrink-0">

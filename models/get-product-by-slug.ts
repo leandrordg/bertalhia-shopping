@@ -23,6 +23,7 @@ export const GET_PRODUCT_BY_SLUG = gql`
           name
           size
           color
+          quantity
           createdAt
           updatedAt
         }
@@ -30,6 +31,7 @@ export const GET_PRODUCT_BY_SLUG = gql`
           id
           name
           color
+          quantity
           createdAt
           updatedAt
         }
@@ -37,6 +39,7 @@ export const GET_PRODUCT_BY_SLUG = gql`
           id
           name
           size
+          quantity
           createdAt
           updatedAt
         }

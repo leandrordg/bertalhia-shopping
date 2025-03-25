@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { cn } from "@/lib/tailwind-merge";
+import { cn } from "@/lib/cn";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";

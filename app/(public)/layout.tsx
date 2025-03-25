@@ -1,3 +1,5 @@
+import { SessionProvider } from "next-auth/react";
+
 import { Header } from "@/components/header";
 
 export default function PublicLayout({
@@ -7,8 +9,10 @@ export default function PublicLayout({
 }) {
   return (
     <>
-      <Header />
-      {children}
+      <SessionProvider>
+        <Header />
+        {children}
+      </SessionProvider>
     </>
   );
 }

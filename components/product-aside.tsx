@@ -14,6 +14,9 @@ export function ProductAside({ product, reviews }: Props) {
   const categories = product.categories.filter((category) => category.id);
   const collections = product.collections.filter((collection) => collection.id);
 
+  const averageRating =
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
+
   return (
     <aside className="space-y-4 p-4">
       {reviews.length === 0 && (
@@ -22,6 +25,7 @@ export function ProductAside({ product, reviews }: Props) {
 
       {reviews.length > 0 && (
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
+          {averageRating.toFixed(1)} estrelas &middot;&nbsp;
           {reviews.length === 1
             ? "1 avaliação"
             : `${reviews.length} avaliações`}
@@ -34,7 +38,7 @@ export function ProductAside({ product, reviews }: Props) {
             <Link
               key={category.id}
               href={`/categories/${category.slug}`}
-              className="text-muted-foreground"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               {category.name}
             </Link>
@@ -43,7 +47,7 @@ export function ProductAside({ product, reviews }: Props) {
             <Link
               key={collection.id}
               href={`/collections/${collection.slug}`}
-              className="text-muted-foreground"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               {collection.name}
             </Link>

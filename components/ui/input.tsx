@@ -1,4 +1,4 @@
-import { cn } from "@/lib/tailwind-merge";
+import { cn } from "@/lib/cn";
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (

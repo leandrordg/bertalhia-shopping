@@ -7,6 +7,7 @@ export async function getCollectionBySlugWithProducts(
   const { data } = await queryClient.query({
     query: GET_COLLECTIONS_BY_SLUG_WITH_PRODUCTS,
     variables: { slug },
+    fetchPolicy: "network-only",
   });
 
   return data.collections[0];

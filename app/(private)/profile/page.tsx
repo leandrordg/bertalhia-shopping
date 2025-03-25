@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { getOrdersByUser } from "@/hooks/get-orders-by-user";
+import { getProducts } from "@/hooks/get-products";
+import { cn } from "@/lib/cn";
 import { formatDate, formatPrice } from "@/utils/format";
 
 import { FreeShippingCard } from "@/components/free-shipping-card";
@@ -15,6 +17,7 @@ export default async function ProfilePage() {
 
   if (!session?.user) return redirect("/sign-in");
 
+  const products = await getProducts();
   const orders = await getOrdersByUser();
 
   return (
@@ -58,7 +61,7 @@ export default async function ProfilePage() {
         )}
 
         {orders.length > 0 && (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8">
             {orders.map((order) => {
               const { orderItems, id, total } = order;
 
@@ -69,7 +72,10 @@ export default async function ProfilePage() {
               return (
                 <div
                   key={id}
-                  className="flex flex-col gap-2 bg-muted/50 p-4 md:p-8 rounded-xl overflow-clip"
+                  className={cn(
+                    "flex flex-col gap-2 bg-muted/50 p-4 py-8 md:px-8 rounded-xl overflow-clip",
+                    orders.length === 1 && "md:col-span-2"
+                  )}
                 >
                   <p className="text-xs text-muted-foreground">
                     {formatDate(order.createdAt, {
@@ -113,28 +119,7 @@ export default async function ProfilePage() {
         )}
       </section>
 
-      <FreeShippingCard />
+      <FreeShippingCard products={products} />
     </main>
   );
-}
-
-{
-  /* <div key={item.id} className="flex gap-4">
-  <div className="relative size-24 rounded-xl overflow-clip">
-    <Image src={item.product.images[0].url} alt={item.product.name} fill />
-  </div>
-
-  <div className="space-y-2">
-    <p className="text-xs text-muted-foreground">{order.stripeCheckoutId}</p>
-
-    <p className="font-medium">{item.product.name}</p>
-
-    <p className="text-sm text-muted-foreground">
-      {item.quantity}x {formatPrice(item.product.price)}/un -{" "}
-      {item.product.variants[0].name}
-    </p>
-
-    <p className="font-medium">{formatPrice(order.total)}</p>
-  </div>
-</div>; */
 }

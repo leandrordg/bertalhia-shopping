@@ -1,12 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type CartItem = Product & {
-  quantity: number;
-  variantId: string;
-};
-
-interface CartStore {
+type CartStore = {
   items: CartItem[];
   itemsCount: number;
   totalPrice: number;
@@ -14,72 +9,86 @@ interface CartStore {
   removeItem: (id: string, variantId: string) => void;
   updateQuantity: (id: string, variantId: string, quantity: number) => void;
   clearCart: () => void;
-}
+};
 
 export const useCartStore = create<CartStore>()(
   persist(
-    (set) => ({
-      items: [],
-      itemsCount: 0,
-      totalPrice: 0,
-      addItem: (item) =>
-        set((state) => {
-          const existingItem = state.items.find(
-            (i) => i.id === item.id && i.variantId === item.variantId
-          );
-          let updatedItems;
-          if (existingItem) {
-            updatedItems = state.items.map((i) =>
-              i.id === item.id && i.variantId === item.variantId
-                ? { ...i, quantity: i.quantity + item.quantity }
-                : i
+    (set) => {
+      const calculateCartTotals = (items: CartItem[]) => ({
+        totalPrice: items.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        ),
+        itemsCount: items.length,
+      });
+
+      return {
+        items: [],
+        itemsCount: 0,
+        totalPrice: 0,
+
+        addItem: (item) =>
+          set((state) => {
+            const existingItem = state.items.find(
+              (i) => i.id === item.id && i.variantId === item.variantId
             );
-          } else {
-            updatedItems = [...state.items, item];
-          }
 
-          const totalPrice = updatedItems.reduce(
-            (acc, i) => acc + i.price * i.quantity,
-            0
-          );
+            if (existingItem) {
+              const updatedItems = state.items.filter(
+                (i) => i.id !== item.id || i.variantId !== item.variantId
+              );
 
-          const itemsCount = updatedItems.length;
-          return { items: updatedItems, itemsCount, totalPrice };
-        }),
-      removeItem: (id, variantId) =>
-        set((state) => {
-          const updatedItems = state.items.filter(
-            (item) => item.id !== id || item.variantId !== variantId
-          );
+              return {
+                items: [...updatedItems, item],
+                ...calculateCartTotals([...updatedItems, item]),
+              };
+            }
 
-          const totalPrice = updatedItems.reduce(
-            (acc, i) => acc + i.price * i.quantity,
-            0
-          );
+            return {
+              items: [...state.items, item],
+              ...calculateCartTotals([...state.items, item]),
+            };
+          }),
 
-          const itemsCount = updatedItems.length;
-          return { items: updatedItems, itemsCount, totalPrice };
-        }),
-      updateQuantity: (id, variantId, quantity) =>
-        set((state) => {
-          const updatedItems = state.items.map((item) =>
-            item.id === id && item.variantId === variantId
-              ? { ...item, quantity: Math.max(quantity, 0) }
-              : item
-          );
+        removeItem: (id, variantId) =>
+          set((state) => {
+            const updatedItems = state.items.filter(
+              (item) => item.id !== id || item.variantId !== variantId
+            );
 
-          const totalPrice = updatedItems.reduce(
-            (acc, i) => acc + i.price * i.quantity,
-            0
-          );
+            return {
+              items: updatedItems,
+              ...calculateCartTotals(updatedItems),
+            };
+          }),
 
-          const itemsCount = updatedItems.length;
-          return { items: updatedItems, itemsCount, totalPrice };
-        }),
-      clearCart: () => set({ items: [], itemsCount: 0, totalPrice: 0 }),
-    }),
-    {
-      name: "cart-storage",
-    }
+        updateQuantity: (id, variantId, quantity) =>
+          set((state) => {
+            const updatedItems = state.items.map((item) => {
+              if (item.id === id && item.variantId === variantId) {
+                const maxQuantity =
+                  item.variants.find((v) => v.id === variantId)?.quantity ?? 0;
+
+                const newQuantity = Math.min(
+                  Math.max(quantity, 1),
+                  maxQuantity
+                );
+                if (newQuantity === item.quantity) return item;
+
+                return { ...item, quantity: newQuantity };
+              }
+              return item;
+            });
+
+            return {
+              items: updatedItems,
+              ...calculateCartTotals(updatedItems),
+            };
+          }),
+
+        clearCart: () => set({ items: [], itemsCount: 0, totalPrice: 0 }),
+      };
+    },
+    { name: "cart-storage" }
   )
 );

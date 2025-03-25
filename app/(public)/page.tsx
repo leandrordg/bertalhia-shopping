@@ -31,7 +31,7 @@ export default async function HomePage() {
         )}
 
         {products.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -49,7 +49,7 @@ export default async function HomePage() {
         )}
 
         {categories.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {categories.map((category) => (
               <CategoryCard key={category.id} category={category} />
             ))}
@@ -63,7 +63,7 @@ export default async function HomePage() {
         </div>
       )}
 
-      <FreeShippingCard />
+      <FreeShippingCard products={products} />
     </main>
   );
 }

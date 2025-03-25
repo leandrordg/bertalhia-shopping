@@ -10,6 +10,7 @@ import { formatDate, formatPrice } from "@/utils/format";
 
 import { FreeShippingCard } from "@/components/free-shipping-card";
 import { CalendarIcon, ChevronRightIcon } from "lucide-react";
+import { getProducts } from "@/hooks/get-products";
 
 interface Props {
   params: Promise<{ orderId: string }>;
@@ -18,6 +19,7 @@ interface Props {
 export default async function OrderIdPage({ params }: Props) {
   const { orderId } = await params;
 
+  const products = await getProducts();
   const order = await getOrderById(orderId);
 
   return (
@@ -38,7 +40,7 @@ export default async function OrderIdPage({ params }: Props) {
         </p>
       </div>
 
-      <section className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-8 lg:items-start">
+      <section className="grid grid-cols-1 lg:gap-8 lg:grid-cols-3 lg:items-start">
         <div className="lg:col-span-2 flex flex-col gap-8">
           {order.orderItems.map((item) => {
             const selectedVariant = item.product.variants.find(
@@ -48,7 +50,7 @@ export default async function OrderIdPage({ params }: Props) {
             return (
               <div
                 key={item.id}
-                className="flex gap-4 md:gap-8 p-4 md:p-8 md:items-center rounded-xl hover:bg-muted/50"
+                className="flex gap-4 md:gap-8 p-4 py-8 md:px-8 md:items-center rounded-xl hover:bg-muted/50"
               >
                 <Link
                   href={`/products/${item.product.slug}?variant=${item.productVariant}`}
@@ -121,7 +123,7 @@ export default async function OrderIdPage({ params }: Props) {
         </aside>
       </section>
 
-      <FreeShippingCard />
+      <FreeShippingCard products={products} />
     </main>
   );
 }

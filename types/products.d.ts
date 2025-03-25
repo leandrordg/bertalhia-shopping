@@ -17,3 +17,8 @@ type SimilarProducts = {
   productsByCategory: Product[];
   productsByCollection: Product[];
 };
+
+type ProductWithCart = Product & {
+  quantity: number;
+  variantId: string;
+};

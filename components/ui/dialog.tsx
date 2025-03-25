@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/tailwind-merge";
+import { cn } from "@/lib/cn";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 function Dialog({

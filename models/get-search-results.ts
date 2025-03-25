@@ -27,6 +27,7 @@ export const GET_SEARCH_RESULTS = gql`
           name
           size
           color
+          quantity
           createdAt
           updatedAt
         }
@@ -34,6 +35,7 @@ export const GET_SEARCH_RESULTS = gql`
           id
           name
           color
+          quantity
           createdAt
           updatedAt
         }
@@ -41,6 +43,7 @@ export const GET_SEARCH_RESULTS = gql`
           id
           name
           size
+          quantity
           createdAt
           updatedAt
         }

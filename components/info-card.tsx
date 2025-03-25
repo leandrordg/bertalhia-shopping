@@ -8,7 +8,7 @@ export function InfoCard({ children }: Props) {
   return (
     <div className="flex flex-col items-center text-center justify-center gap-4 p-8 bg-muted/50 rounded-xl text-muted-foreground">
       <InfoIcon className="size-6" />
-      <p className="font-medium">{children}</p>
+      <p className="text-sm">{children}</p>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { getCollectionBySlugWithProducts } from "@/hooks/get-collection-by-slug-with-products";
+import { getProducts } from "@/hooks/get-products";
 
 import { FreeShippingCard } from "@/components/free-shipping-card";
 import { InfoCard } from "@/components/info-card";
@@ -13,6 +14,7 @@ interface Props {
 export default async function CollectionSlugPage({ params }: Props) {
   const { collectionSlug } = await params;
 
+  const products = await getProducts();
   const collection = await getCollectionBySlugWithProducts(collectionSlug);
 
   return (
@@ -39,14 +41,14 @@ export default async function CollectionSlugPage({ params }: Props) {
       )}
 
       {collection.products.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {collection.products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       )}
 
-      <FreeShippingCard />
+      <FreeShippingCard products={products} />
     </main>
   );
 }

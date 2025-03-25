@@ -7,6 +7,7 @@ export async function getReviewsByProductSlug(
   const { data } = await queryClient.query({
     query: GET_REVIEWS_BY_PRODUCT_SLUG,
     variables: { productSlug },
+    fetchPolicy: "network-only",
   });
 
   return data.reviews;

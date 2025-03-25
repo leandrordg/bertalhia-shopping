@@ -23,6 +23,7 @@ export const GET_PRODUCTS = gql`
           name
           size
           color
+          quantity
           createdAt
           updatedAt
         }
@@ -30,6 +31,7 @@ export const GET_PRODUCTS = gql`
           id
           name
           color
+          quantity
           createdAt
           updatedAt
         }
@@ -37,6 +39,7 @@ export const GET_PRODUCTS = gql`
           id
           name
           size
+          quantity
           createdAt
           updatedAt
         }

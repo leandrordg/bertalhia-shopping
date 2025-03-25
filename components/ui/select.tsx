@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/tailwind-merge";
+import { cn } from "@/lib/cn";
 import * as SelectPrimitive from "@radix-ui/react-select";
 
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";

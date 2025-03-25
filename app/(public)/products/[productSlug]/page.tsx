@@ -1,4 +1,5 @@
 import { getProductBySlug } from "@/hooks/get-product-by-slug";
+import { getProducts } from "@/hooks/get-products";
 import { getReviewsByProductSlug } from "@/hooks/get-reviews-by-product-slug";
 import { getSimilarProducts } from "@/hooks/get-similar-products";
 
@@ -17,6 +18,7 @@ interface Props {
 export default async function ProductSlugPage({ params }: Props) {
   const { productSlug } = await params;
 
+  const products = await getProducts();
   const product = await getProductBySlug(productSlug);
   const reviews = await getReviewsByProductSlug(productSlug);
 
@@ -36,7 +38,7 @@ export default async function ProductSlugPage({ params }: Props) {
         </section>
       </div>
 
-      <FreeShippingCard />
+      <FreeShippingCard products={products} />
 
       <ProductImages product={product} />
 

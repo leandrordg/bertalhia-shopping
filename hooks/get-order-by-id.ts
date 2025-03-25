@@ -12,6 +12,7 @@ export async function getOrderById(id: string): Promise<OrderWithOrderItems> {
   const { data } = await queryClient.query({
     query: GET_ORDER_BY_ID,
     variables: { id, email: session.user.email },
+    fetchPolicy: "network-only",
   });
 
   return data.orders[0];

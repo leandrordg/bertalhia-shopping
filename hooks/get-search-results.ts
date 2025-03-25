@@ -7,6 +7,7 @@ export async function getSearchResults(search?: string): Promise<SearchResult> {
   const { data } = await queryClient.query({
     query: GET_SEARCH_RESULTS,
     variables: { search },
+    fetchPolicy: "network-only",
   });
 
   return {

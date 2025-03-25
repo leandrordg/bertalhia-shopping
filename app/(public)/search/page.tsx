@@ -1,3 +1,4 @@
+import { getProducts } from "@/hooks/get-products";
 import { getSearchResults } from "@/hooks/get-search-results";
 
 import { CategoryCard } from "@/components/category-card";
@@ -13,6 +14,7 @@ interface Props {
 export default async function SearchPage({ searchParams }: Props) {
   const { q } = await searchParams;
 
+  const allProducts = await getProducts();
   const { products, categories, collections } = await getSearchResults(q);
 
   const totalResults = products.length + categories.length + collections.length;
@@ -36,7 +38,7 @@ export default async function SearchPage({ searchParams }: Props) {
             Produtos encontrados
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -50,7 +52,7 @@ export default async function SearchPage({ searchParams }: Props) {
             Categorias encontradas
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
             {categories.map((category) => (
               <CategoryCard key={category.id} category={category} />
             ))}
@@ -64,7 +66,7 @@ export default async function SearchPage({ searchParams }: Props) {
             Coleções encontradas
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
             {collections.map((collection) => (
               <CollectionCard key={collection.id} collection={collection} />
             ))}
@@ -72,7 +74,7 @@ export default async function SearchPage({ searchParams }: Props) {
         </div>
       )}
 
-      <FreeShippingCard />
+      <FreeShippingCard products={allProducts} />
     </main>
   );
 }
