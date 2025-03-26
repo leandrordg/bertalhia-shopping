@@ -1,8 +1,11 @@
 import { gql } from "@apollo/client";
 
-export const GET_ORDER_BY_ID = gql`
-  query GetOrderById($id: ID!, $email: String!) {
-    orders(where: { id: $id, email: $email }) {
+export const GET_ORDERS_BY_STRIPE_CHECKOUT_ID = gql`
+  query GetOrdersByStripeCheckoutId(
+    $email: String!
+    $stripeCheckoutId: String!
+  ) {
+    orders(where: { email: $email, stripeCheckoutId: $stripeCheckoutId }) {
       id
       email
       total

@@ -6,9 +6,10 @@ export const GET_ORDERS_BY_USER = gql`
       id
       email
       total
+      stripeCheckoutId
+      orderStatus
       createdAt
       updatedAt
-      stripeCheckoutId
       orderItems {
         id
         total

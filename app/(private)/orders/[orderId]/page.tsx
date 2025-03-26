@@ -1,16 +1,16 @@
 import { getOrderById } from "@/hooks/get-order-by-id";
 import { getProducts } from "@/hooks/get-products";
+import { cn } from "@/lib/cn";
 import {
   DEFAULT_SHIPPING_PRICE,
   FREE_SHIPPING_THRESHOLD,
 } from "@/utils/config";
-import { formatDate, formatPrice } from "@/utils/format";
+import { formatDate, formatOrderStatus, formatPrice } from "@/utils/format";
 
 import { FreeShippingCard } from "@/components/free-shipping-card";
 import { InfoCard } from "@/components/info-card";
 import { ProductOrderCard } from "@/components/product-order-card";
 import { CalendarIcon } from "lucide-react";
-import Image from "next/image";
 
 interface Props {
   params: Promise<{ orderId: string }>;
@@ -30,7 +30,19 @@ export default async function OrderIdPage({ params }: Props) {
           <span className="text-foreground">#{order.id}</span>
         </h3>
 
-        <div className="flex flex-wrap items-center gap-2 px-4 md:px-8">
+        <div className="flex flex-wrap items-center gap-4 px-4 md:px-8">
+          <div
+            className={cn(
+              "text-xs px-3 py-0.5 rounded-xl w-fit",
+              order.orderStatus !== "processing" && "bg-blue-100 text-blue-600",
+              order.orderStatus === "created" &&
+                "bg-muted text-muted-foreground",
+              order.orderStatus === "succeeded" && "bg-green-100 text-green-600"
+            )}
+          >
+            {formatOrderStatus(order.orderStatus)}
+          </div>
+
           <p className="text-xs text-muted-foreground">
             <CalendarIcon className="size-4 inline-block -mt-0.5 mr-1" />
             {formatDate(order.createdAt, {
@@ -39,16 +51,25 @@ export default async function OrderIdPage({ params }: Props) {
             })}
           </p>
 
-          <span className="text-xs text-muted-foreground">•</span>
-
           <p className="text-xs text-muted-foreground">
-            {order.orderItems.length}{" "}
-            {order.orderItems.length === 1 ? "produto" : "produtos"} adquiridos
+            {order.orderItems.length === 1
+              ? "1 produto adquirido."
+              : `${order.orderItems.length} produtos adquiridos.`}
           </p>
         </div>
+
+        {(order.orderStatus === "created" ||
+          order.orderStatus === "processing") && (
+          <div className="my-8">
+            <InfoCard>
+              Seu pedido está sendo processado. Assim que o pagamento for
+              confirmado, enviaremos um e-mail com o código de rastreio.
+            </InfoCard>
+          </div>
+        )}
       </div>
 
-      <section className="flex flex-col md:flex-row">
+      <section className="flex flex-col lg:flex-row">
         <div className="grid grid-cols-1 divide-y flex-[2]">
           {order.orderItems.map(({ product, productVariant, quantity }) => (
             <ProductOrderCard
@@ -60,8 +81,8 @@ export default async function OrderIdPage({ params }: Props) {
           ))}
         </div>
 
-        <aside className="flex-1 border bg-muted/20 p-4 py-8 md:p-8 rounded-xl overflow-clip space-y-4">
-          <p className="text-xs text-muted-foreground">
+        <aside className="flex-1 max-w-md border p-4 py-8 md:p-8 rounded-xl overflow-clip space-y-4">
+          <p className="text-xs text-muted-foreground truncate">
             ID de pagamento: {order.stripeCheckoutId}
           </p>
 
@@ -69,38 +90,11 @@ export default async function OrderIdPage({ params }: Props) {
             Resumo da compra
           </h4>
 
-          {order.orderItems.map(({ product, productVariant, quantity }) => (
-            <div
-              key={product.id}
-              className="flex items-start gap-1 border rounded-xl overflow-clip p-2 bg-white"
-            >
-              <div className="relative size-10">
-                <Image src={product.images[0].url} alt={product.name} fill />
-              </div>
-
-              <div>
-                <p className="text-xs text-muted-foreground">
-                  {
-                    product.variants.find(
-                      (variant) => variant.id === productVariant
-                    )!.name
-                  }
-                </p>
-                <p className="text-sm font-medium">{product.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {quantity}x {formatPrice(product.price)}
-                </p>
-              </div>
-            </div>
-          ))}
-
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">
               Subtotal ({order.orderItems.length})
             </span>
-            <span className="font-medium">
-              {formatPrice(order.total + DEFAULT_SHIPPING_PRICE)}
-            </span>
+            <span className="font-medium">{formatPrice(order.total)}</span>
           </div>
 
           <div className="flex justify-between text-sm">

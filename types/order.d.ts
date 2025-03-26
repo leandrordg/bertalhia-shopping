@@ -2,9 +2,10 @@ type Order = {
   id: string;
   email: string;
   total: number;
+  stripeCheckoutId: string;
+  orderStatus: OrderStatus;
   createdAt: string;
   updatedAt: string;
-  stripeCheckoutId: string;
 };
 
 type OrderItem = {
@@ -20,3 +21,10 @@ type OrderItem = {
 type OrderWithOrderItems = Order & {
   orderItems: OrderItem[];
 };
+
+type OrderStatus =
+  | "created"
+  | "succeeded"
+  | "payment_failed"
+  | "canceled"
+  | "processing";
