@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { checkout } from "@/actions/checkout";
 import { useCartStore } from "@/stores/cart";
@@ -13,6 +14,7 @@ import { validateProducts } from "@/utils/validate-products";
 import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
+import { EllipsisIcon } from "lucide-react";
 
 interface Props {
   products: Product[];
@@ -20,6 +22,8 @@ interface Props {
 
 export function CartCheckout({ products }: Props) {
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { data: session } = useSession();
   const { items } = useCartStore((state) => state);
@@ -43,7 +47,11 @@ export function CartCheckout({ products }: Props) {
 
     if (!session) return router.push("/sign-in");
 
+    setIsLoading(true);
+
     await checkout(items);
+
+    setIsLoading(false);
   };
 
   return (
@@ -53,9 +61,7 @@ export function CartCheckout({ products }: Props) {
           <span className="text-muted-foreground">
             Subtotal ({activeProducts.length})
           </span>
-          <span className="font-medium">
-            {formatPrice(totalPrice + DEFAULT_SHIPPING_PRICE)}
-          </span>
+          <span className="font-medium">{formatPrice(totalPrice)}</span>
         </div>
 
         <div className="flex justify-between text-sm">
@@ -72,7 +78,13 @@ export function CartCheckout({ products }: Props) {
           <span>{formatPrice(totalPriceWithShipping)}</span>
         </div>
 
-        <Button onClick={handleCheckout}>Finalizar compra</Button>
+        <Button disabled={isLoading} onClick={handleCheckout}>
+          {isLoading ? (
+            <EllipsisIcon className="animate-pulse" />
+          ) : (
+            "Finalizar compra"
+          )}
+        </Button>
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_ORDERS_BY_USER = gql`
   query GetOrdersByUser($email: String!) {
-    orders(where: { email: $email }) {
+    orders(where: { email: $email }, orderBy: createdAt_DESC) {
       id
       email
       total

@@ -1,8 +1,7 @@
-import Image from "next/image";
-
 import { getCollectionBySlugWithProducts } from "@/hooks/get-collection-by-slug-with-products";
 import { getProducts } from "@/hooks/get-products";
 
+import { CollectionCard } from "@/components/collection-card";
 import { FreeShippingCard } from "@/components/free-shipping-card";
 import { InfoCard } from "@/components/info-card";
 import { ProductCard } from "@/components/product-card";
@@ -26,14 +25,7 @@ export default async function CollectionSlugPage({ params }: Props) {
           {collection.description ?? "Sem descrição."}
         </p>
 
-        <div className="relative mt-8 rounded-xl overflow-clip group text-center cursor-pointer bg-muted/50 hover:bg-muted transition-colors duration-300 h-72 w-full">
-          <Image
-            src={collection.bannerImage.url}
-            alt={collection.bannerImage.fileName}
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-            fill
-          />
-        </div>
+        <CollectionCard collection={collection} />
       </div>
 
       {!collection.products.length && (

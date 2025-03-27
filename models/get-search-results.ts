@@ -79,37 +79,5 @@ export const GET_SEARCH_RESULTS = gql`
         }
       }
     }
-
-    collections(where: { name_contains: $search }) {
-      id
-      name
-      slug
-      description
-      createdAt
-      updatedAt
-      bannerImage {
-        id
-        fileName
-        createdAt
-        updatedAt
-        url
-      }
-    }
-
-    categories(where: { name_contains: $search }) {
-      id
-      name
-      slug
-      description
-      createdAt
-      updatedAt
-      bannerImage {
-        id
-        fileName
-        createdAt
-        updatedAt
-        url
-      }
-    }
   }
 `;

@@ -21,7 +21,7 @@ export default async function ProfilePage() {
   const orders = await getOrdersByUser();
 
   return (
-    <main className="max-w-7xl mx-auto py-12 space-y-12">
+    <main className="max-w-7xl mx-auto py-12 space-y-4 md:space-y-8 lg:space-y-12">
       <h3 className="text-xl font-bold text-muted-foreground uppercase px-4 md:px-8">
         Minha conta
       </h3>

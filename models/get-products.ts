@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_PRODUCTS = gql`
   query GetProducts {
-    products(stage: PUBLISHED, locales: pt_BR) {
+    products(stage: PUBLISHED, locales: pt_BR, orderBy: createdAt_DESC) {
       id
       name
       description

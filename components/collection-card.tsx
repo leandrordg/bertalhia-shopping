@@ -12,7 +12,7 @@ export function CollectionCard({ collection }: Props) {
         <Image
           src={collection.bannerImage.url}
           alt={collection.bannerImage.fileName}
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          className="object-cover group-hover:scale-[1.01] transition-transform duration-300"
           fill
         />
       </div>

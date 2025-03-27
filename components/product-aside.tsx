@@ -55,8 +55,6 @@ export function ProductAside({ product, reviews }: Props) {
         </div>
       )}
 
-      <p className="text-xs text-muted-foreground">ID: {product.id}</p>
-
       <h1 className="text-3xl md:text-4xl lg:text-5xl font-black">
         {product.name}
       </h1>

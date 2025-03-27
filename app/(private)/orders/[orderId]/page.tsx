@@ -22,8 +22,13 @@ export default async function OrderIdPage({ params }: Props) {
   const products = await getProducts();
   const order = await getOrderById(orderId);
 
+  const subtotal = order.orderItems.reduce(
+    (acc, { total, quantity }) => acc + total * quantity,
+    0
+  );
+
   return (
-    <main className="max-w-7xl mx-auto py-12 space-y-12">
+    <main className="max-w-7xl mx-auto py-12 space-y-4 md:space-y-8 lg:space-y-12">
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-muted-foreground uppercase px-4 md:px-8 break-words">
           Visualizando pedido{" "}
@@ -81,7 +86,7 @@ export default async function OrderIdPage({ params }: Props) {
           ))}
         </div>
 
-        <aside className="flex-1 max-w-md border p-4 py-8 md:p-8 rounded-xl overflow-clip space-y-4">
+        <aside className="flex-1 lg:max-w-md border p-4 py-8 md:p-8 rounded-xl overflow-clip space-y-4">
           <p className="text-xs text-muted-foreground truncate">
             ID de pagamento: {order.stripeCheckoutId}
           </p>
@@ -94,7 +99,7 @@ export default async function OrderIdPage({ params }: Props) {
             <span className="text-muted-foreground">
               Subtotal ({order.orderItems.length})
             </span>
-            <span className="font-medium">{formatPrice(order.total)}</span>
+            <span className="font-medium">{formatPrice(subtotal)}</span>
           </div>
 
           <div className="flex justify-between text-sm">

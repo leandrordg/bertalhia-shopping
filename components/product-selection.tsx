@@ -30,11 +30,7 @@ export function ProductSelection({ product }: Props) {
     defaultValue: "",
   });
 
-  const variantsWithQuantity = product.variants.filter((v) => v.quantity > 0);
-
-  const selectedVariant = variantsWithQuantity.find(
-    (v) => v.id === currVariant
-  );
+  const selectedVariant = product.variants.find((v) => v.id === currVariant);
 
   const handleAddToCart = () => {
     const parsedQuantity = parseInt(quantity);
@@ -66,7 +62,7 @@ export function ProductSelection({ product }: Props) {
   return (
     <div className="flex flex-col gap-8">
       <div className="grid grid-cols-5 gap-4">
-        {variantsWithQuantity.length > 0 && (
+        {product.variants.length > 0 && (
           <div className="flex flex-col gap-2 col-span-3">
             <label
               htmlFor="variant"
@@ -80,7 +76,7 @@ export function ProductSelection({ product }: Props) {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {variantsWithQuantity.map((variant) => (
+                  {product.variants.map((variant) => (
                     <SelectItem key={variant.id} value={variant.id}>
                       {variant.name}
                     </SelectItem>
@@ -104,11 +100,15 @@ export function ProductSelection({ product }: Props) {
               id="quantity"
               className="w-full"
               size="lg"
-              disabled={!selectedVariant}
+              disabled={!selectedVariant || !selectedVariant.quantity}
             >
               <SelectValue
                 placeholder={
-                  !selectedVariant ? "Selecione uma variante" : "1 ou mais..."
+                  !selectedVariant
+                    ? "Selecione uma variante"
+                    : selectedVariant.quantity
+                    ? "Quantidade"
+                    : "Não disponível"
                 }
               />
             </SelectTrigger>

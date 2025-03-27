@@ -29,6 +29,8 @@ export async function POST(req: NextRequest) {
     ) {
       const { metadata } = event.data.object;
 
+      console.log(event.data)
+
       if (!metadata)
         throw new Error("Não foi possível obter os metadados do evento");
 
@@ -44,7 +46,7 @@ export async function POST(req: NextRequest) {
           orderId,
           variantId,
           totalQuantity,
-          selectedQuantity
+          selectedQuantity,
         );
       }
     }
