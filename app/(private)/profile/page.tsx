@@ -27,7 +27,7 @@ export default async function ProfilePage() {
       </h3>
 
       <section className="space-y-12">
-        <div className="p-4 py-8 md:p-8 rounded-xl overflow-clip flex flex-col gap-4">
+        <div className="p-4 py-8 md:p-8 rounded-xl overflow-clip flex flex-col gap-4 border border-muted">
           <div className="flex items-start gap-4">
             <div className="relative size-12 rounded-full overflow-clip">
               <Image

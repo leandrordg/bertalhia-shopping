@@ -9,7 +9,7 @@ export function CategoryCard({ category }: Props) {
   return (
     <Link href={`/categories/${category.slug}`}>
       <div className="rounded-xl group text-center cursor-pointer">
-        <div className="relative h-72 w-full rounded-xl overflow-clip">
+        <div className="relative h-96 w-full rounded-xl overflow-clip">
           <Image
             src={category.bannerImage.url}
             alt={category.bannerImage.fileName}

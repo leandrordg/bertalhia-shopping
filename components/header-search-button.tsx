@@ -16,6 +16,7 @@ export function HeaderSearchButton() {
     <Dialog>
       <DialogTrigger className="cursor-pointer">
         <SearchIcon className="size-6" />
+        <span className="sr-only">Buscar</span>
       </DialogTrigger>
       <DialogContent>
         <VisuallyHidden>

@@ -12,6 +12,7 @@ export function HeaderCartButton() {
   return (
     <Link href="/cart" className="relative">
       <ShoppingBasketIcon className="size-6" />
+      <span className="sr-only">Carrinho</span>
       {itemsCount > 0 && (
         <span className="absolute -top-1 -right-1 text-xs text-white bg-indigo-700 rounded-full size-4 flex items-center justify-center">
           {itemsCount}
